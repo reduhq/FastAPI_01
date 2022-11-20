@@ -21,6 +21,12 @@ class Person(BaseModel):
     hair_color:Optional[str] = None
     is_married:Optional[bool] = None
 
+class Location(BaseModel):
+    city:str
+    state:str
+    transfer:str
+
+
 @app.get("/") #Path Operation Decorator
 def home(): #Path Operation Function
     return {"Hello": "World"}
@@ -63,3 +69,20 @@ def show_person(
         )
 ): 
     return {person_id: "it exists!"}
+
+#validaciones : Request Body
+#127.0.0.1:8000/person/25
+@app.put("/person/{person_id}")
+def update_person(
+    person_id:int = Path(
+        ...,
+        title="Person Id",
+        description="This is the person Id",
+        gt=0
+        ),
+    person:Person = Body(...),
+    Location:Location = Body(...)
+):
+    results = person.dict()
+    results.update(Location.dict())
+    return results
