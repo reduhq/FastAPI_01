@@ -26,25 +26,48 @@ class Person(BaseModel):
     first_name:str = Field(
         ...,
         min_length=1,
-        max_length=25
+        max_length=25,
+        # example="Rey Eduardo"
         ) 
     last_name:str = Field(
         ...,
         min_length=1,
-        max_length=25
+        max_length=25,
+        # example="Halsall Quintero"
         )
     age:int = Field(
         ...,
         gt=0,
-        le=115
+        le=115,
+        # example=20
         )
     hair_color:Optional[HairColor] = Field(default=None)
     is_married:Optional[bool] = Field(default=None)
 
+    class Config:
+        schema_extra = {
+            "example" : {
+                "first_name": "Rey",
+                "last_name": "Halsall",
+                "age": 19,
+                "hair_color": "black",
+                "is_married": False
+            }
+        }
+
 class Location(BaseModel):
     city:str
     state:str
-    transfer:str
+    country:str
+
+    class Config:
+        schema_extra = {
+            "example" : {
+                "city": "Bo. Omar Torrijos",
+                "state": "Managua",
+                "country": "Nicaragua"
+            }
+        }
 
 
 @app.get("/") #Path Operation Decorator
