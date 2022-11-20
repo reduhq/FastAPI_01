@@ -16,3 +16,8 @@ pip install fastapi uvicorn
 ```sh
 pip install -r requirements.txt
 ```
+
+> NOTA: Para ejecutar nuestra API en local, tenemos que usar el siguiente comando
+> ```sh
+> uvicorn main:app --reload
+> ```
