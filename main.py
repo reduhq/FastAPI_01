@@ -8,6 +8,7 @@ from pydantic import Field
 
 #FastAPI
 from fastapi import FastAPI
+from fastapi import status
 from fastapi import Body, Query, Path
 
 
@@ -74,18 +75,28 @@ class Location(BaseModel):
         }
 
 
-@app.get("/") #Path Operation Decorator
+@app.get(
+    path="/",
+    status_code=status.HTTP_200_OK
+    ) #Path Operation Decorator
 def home(): #Path Operation Function
     return {"Hello": "World"}
 
 #Request and Response Body
-@app.post("/person/new", response_model=BasePerson) #Request Body
+@app.post(
+    path="/person/new",
+    response_model=BasePerson,
+    status_code=status.HTTP_201_CREATED
+    ) #Request Body
 def create_person(person:Person = Body(...)):#Los tres puntos "..." significan que es obligatorio
     return person
 
 #Validaciones : Query Parameters
 #127.0.0.1:8000/person/detail?name=John&age=12
-@app.get("/person/detail")
+@app.get(
+    path="/person/detail",
+    status_code=status.HTTP_200_OK
+    )
 def show_person(
     name:Optional[str] = Query(
         default=None,
@@ -108,7 +119,10 @@ def show_person(
 
 #Validaciones : Path Parameters
 #127.0.0.1:8000/person/detail/25
-@app.get("/person/detail/{person_id}")
+@app.get(
+    path="/person/detail/{person_id}",
+    status_code=status.HTTP_200_OK
+    )
 def show_person(
     person_id:int = Path(
         ...,
@@ -122,7 +136,10 @@ def show_person(
 
 #validaciones : Request Body
 #127.0.0.1:8000/person/25
-@app.put("/person/{person_id}")
+@app.put(
+    path="/person/{person_id}",
+    status_code=status.HTTP_202_ACCEPTED
+    )
 def update_person(
     person_id:int = Path(
         ...,
