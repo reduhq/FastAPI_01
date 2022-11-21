@@ -22,7 +22,7 @@ class HairColor(Enum):
     blonde = "blonde"
     red = "red"
 
-class Person(BaseModel):
+class BasePerson(BaseModel):
     first_name:str = Field(
         ...,
         min_length=1,
@@ -44,6 +44,9 @@ class Person(BaseModel):
     hair_color:Optional[HairColor] = Field(default=None)
     is_married:Optional[bool] = Field(default=None)
 
+class Person(BasePerson):
+    password:str = Field(..., min_length=8)
+
     class Config:
         schema_extra = {
             "example" : {
@@ -51,7 +54,8 @@ class Person(BaseModel):
                 "last_name": "Halsall",
                 "age": 19,
                 "hair_color": "black",
-                "is_married": False
+                "is_married": False,
+                "password": "123456789"
             }
         }
 
@@ -75,7 +79,7 @@ def home(): #Path Operation Function
     return {"Hello": "World"}
 
 #Request and Response Body
-@app.post("/person/new") #Request Body
+@app.post("/person/new", response_model=BasePerson) #Request Body
 def create_person(person:Person = Body(...)):#Los tres puntos "..." significan que es obligatorio
     return person
 
