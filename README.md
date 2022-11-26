@@ -20,4 +20,10 @@ pip install -r requirements.txt
 > NOTA: Para ejecutar nuestra API en local, tenemos que usar el siguiente comando
 > ```sh
 > uvicorn main:app --reload
-> ```
+>```
+
+## Formularios
+Para trabajar con formularios se tiene que descargar el siguiente paquete:
+```sh
+pip install python-multipart
+```
