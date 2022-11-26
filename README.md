@@ -27,3 +27,9 @@ Para trabajar con formularios se tiene que descargar el siguiente paquete:
 ```sh
 pip install python-multipart
 ```
+
+## Validando Email
+Para validar un email necesitas descargar el siguiente paquete:
+```sh
+pip install pydantic[email]
+```
