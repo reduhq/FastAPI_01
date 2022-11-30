@@ -83,7 +83,8 @@ class LoginOut(BaseModel):
 
 @app.get(
     path="/",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Home"]
     ) #Path Operation Decorator
 def home(): #Path Operation Function
     return {"Hello": "World"}
@@ -92,7 +93,8 @@ def home(): #Path Operation Function
 @app.post(
     path="/person/new",
     response_model=BasePerson,
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_201_CREATED,
+    tags=["Persons"]
     ) #Request Body
 def create_person(person:Person = Body(...)):#Los tres puntos "..." significan que es obligatorio
     return person
@@ -101,7 +103,8 @@ def create_person(person:Person = Body(...)):#Los tres puntos "..." significan q
 #127.0.0.1:8000/person/detail?name=John&age=12
 @app.get(
     path="/person/detail",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persons"]
     )
 def show_person(
     name:Optional[str] = Query(
@@ -128,7 +131,8 @@ def show_person(
 persons = [1, 2, 3, 4, 5]
 @app.get(
     path="/person/detail/{person_id}",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persons"]
     )
 def show_person(
     person_id:int = Path(
@@ -150,7 +154,8 @@ def show_person(
 #127.0.0.1:8000/person/25
 @app.put(
     path="/person/{person_id}",
-    status_code=status.HTTP_202_ACCEPTED
+    status_code=status.HTTP_202_ACCEPTED,
+    tags=["Persons"]
     )
 def update_person(
     person_id:int = Path(
@@ -171,7 +176,8 @@ def update_person(
 @app.post(
     path="/login",
     response_model=LoginOut,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persons"]
 )
 def login(username:str = Form(...), password:str = Form(...)):
     return LoginOut(username=username)
@@ -179,7 +185,8 @@ def login(username:str = Form(...), password:str = Form(...)):
 # Trabajando con Cookies y Headers Parameters
 @app.post(
     path="/contact",
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Contact"]
 )
 def contact(
     first_name:str = Form(
@@ -204,7 +211,8 @@ def contact(
 
 # Trabajando con Files
 @app.post(
-    path="/post-image"
+    path="/post-image",
+    tags=["Images"]
 )
 def post_image(
     image:UploadFile = File(...)
