@@ -94,9 +94,21 @@ def home(): #Path Operation Function
     path="/person/new",
     response_model=BasePerson,
     status_code=status.HTTP_201_CREATED,
-    tags=["Persons"]
+    tags=["Persons"],
+    summary="Create Person in the app"
     ) #Request Body
-def create_person(person:Person = Body(...)):#Los tres puntos "..." significan que es obligatorio
+def create_person(person:Person = Body(...)):
+    """
+    Create Person
+    
+    This path operation creates a new person in the app and save the information in the database
+    
+    Parameters:
+    - Request body parameter:
+        - **person: Person** -> A person model with first name, last name, age, hair color and marital status
+        
+    Returns a person model with first name, last name, age, hair color and marital status
+    """
     return person
 
 #Validaciones : Query Parameters
@@ -124,6 +136,18 @@ def show_person(
         example=19
         ) #Los tres puntos "..." significan que es obligatorio
 ):
+    """
+    Show person
+
+    This path operation shows a person who has a certain name and age given in the query 
+
+    Parameters:
+    - Query parameters:
+        - **name: str** -> The person's name
+        - **age: int** -> The person's age
+
+    Returns a person who has the name and the age given ih the query
+    """
     return {name:age}
 
 #Validaciones : Path Parameters
@@ -143,6 +167,17 @@ def show_person(
         example=25
         )
 ): 
+    """
+    Show person
+
+    this path parameter shows if a person with a certain id exists or not
+
+    Parameters:
+    - Path parameters:
+        - **Person_Id: int** -> The person's id
+
+    Returns if a person with a certain id exists or not
+    """
     if person_id not in persons:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -168,6 +203,20 @@ def update_person(
     person:Person = Body(...),
     Location:Location = Body(...)
 ):
+    """
+    Update a person
+
+    This path parameter updates a person's information
+
+    Parameters:
+    - Path parameters:
+        - **Person_id: int** -> The person's id
+    - Body parameters:
+        - **person: Person** -> A person model with first name, last name, age, hair color and marital status
+        - **location: Location** -> a Location model with city, state, country
+
+    Returns a JSON with the data uploaded in the person who has the id given in the query
+    """
     results = person.dict()
     results.update(Location.dict())
     return results
